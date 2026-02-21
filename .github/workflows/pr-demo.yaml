@@ -1,0 +1,12 @@
+name: PR DEMO
+
+on:
+  pull_request:
+    branches: [ "main","surya" ]
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Hello from the PR demo workflow!"
