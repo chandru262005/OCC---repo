@@ -2,11 +2,30 @@ name: PR DEMO
 
 on:
   pull_request:
-    branches: [ "main","surya" ]
+    branches: [ "main", "surya" ]
+  push:
+    branches: [ "main", "surya" ]
 
 jobs:
   demo:
     runs-on: ubuntu-latest
     steps:
-      - name: Say Hello
-        run: echo "Hello from the PR demo workflow!"
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Compile and Check for Errors
+        run: python -m compileall .
+
+      - name: Display Merge Details
+        if: github.event_name == 'push'
+        run: |
+          echo "Merge/Push Details:"
+          echo "User: ${{ github.actor }}"
+          echo "Time: ${{ github.event.head_commit.timestamp }}"
+          echo "Commit Message: ${{ github.event.head_commit.message }}"
+          echo "Repository: ${{ github.repository }}"
+
